@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | AI Study Notes Generator</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p1Cm3b2Yf8q5YFv+Y4w1Kx1Y6z1Z6+V0q1Y0qX1Y0qX1Y0qX1Y0qX1Y0qX1Y0qX1Y0qX1Y0qX1Y0qX1Y0qX1Y==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <!-- TOP NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Project Name -->
+            <div class="navbar-brand">
+                <span class="brand-title">AI Study Notes Generator</span>
+            </div>
+            <!-- Navigation Links -->
+            <div class="navbar-links">
+                <a href="/dashboard" class="nav-link active">Dashboard</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="/logout" class="nav-link">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="dashboard-container">
+    <!-- WELCOME SECTION -->
+        <section class="welcome-section">
+            <h1>Welcome, <strong>{{ user }}</strong></h1>
+            <p class="welcome-subtitle">Generate well-structured study notes for your learning.</p>
+        </section>
+
+        <!-- MAIN GRID LAYOUT -->
+        <div class="dashboard-grid">
+            <!-- GENERATE NOTES CARD -->
+            <section class="card generate-card">
+                <h2 class="card-title">Generate Notes</h2>
+                <form method="POST" class="generate-form">
+                    <div class="form-group">
+                        <label for="topic">Topic</label>
+                        <input 
+                            type="text" 
+                            id="topic" 
+                            name="topic" 
+                            class="input-field"
+                            placeholder="Enter topic (Example: Python, DBMS, Operating System)"
+                            value="{{ topic_value }}"
+                            required
+                        >
+                    </div>
+                    <button type="submit" class="btn-primary">Generate Notes</button>
+                </form>
+            </section>
+
+            <!-- RECENT TOPICS CARD -->
+            <section class="card recent-card">
+                <h2 class="card-title">Recent Topics</h2>
+                {% if recent_topics %}
+                    <div class="topics-list">
+                        {% for topic in recent_topics %}
+                            <div class="topic-item">• {{ topic }}</div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="empty-state">No topics generated yet. Create your first study notes above!</p>
+                {% endif %}
+            </section>
+
+            <!-- GENERATED NOTES CARD -->
+            {% if generated_note %}
+            <section class="card output-card">
+                <div class="card-header">
+                    <h2 class="card-title">{{ generated_note.topic }}</h2>
+                    <div class="card-actions">
+                        <button title="Copy notes" class="icon-btn" onclick="copyNotes()">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button title="Download notes" class="icon-btn" onclick="downloadNotes()">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button title="Delete note" class="icon-btn" onclick="deleteNotes({{ generated_note.id }})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 AI Study Notes Generator</p>
+    </footer>
+                <div class="note-section">
+                    <h3 class="section-heading">Definition</h3>
+                    <p>{{ generated_note.definition }}</p>
+                </div>
+
+                <!-- KEY POINTS -->
+                <div class="note-section">
+                    <h3 class="section-heading">Key Points</h3>
+                    <p>{{ generated_note.key_points }}</p>
+                </div>
+
+                <!-- EXAMPLE -->
+                <div class="note-section">
+                    <h3 class="section-heading">Example</h3>
+                    <p>{{ generated_note.example }}</p>
+                </div>
+
+                <!-- APPLICATIONS -->
+                <div class="note-section">
+                    <h3 class="section-heading">Applications</h3>
+                    <p>{{ generated_note.advantages }}</p>
+                </div>
+
+                <!-- SUMMARY -->
+                <div class="note-section">
+                    <h3 class="section-heading">Summary</h3>
+                    <p>{{ generated_note.summary }}</p>
+                </div>
+            </section>
+            {% else %}
+            <section class="card output-card">
+                <p class="empty-state">No notes generated yet. Enter a topic above to get started!</p>
+            </section>
+            {% endif %}
+</div>
+<script src="/static/script.js"></script>
+    <script>
+        function showToast(message) {
+            const t = document.createElement('div');
+            t.className = 'toast-message';
+            t.textContent = message;
+            document.body.appendChild(t);
+            // force reflow
+            void t.offsetWidth;
+            t.classList.add('show');
+            setTimeout(() => {
+                t.classList.remove('show');
+                setTimeout(() => t.remove(), 300);
+            }, 1500);
+        }
+
+        function collectNoteText() {
+            const outputCard = document.querySelector('.output-card');
+            if (!outputCard) return '';
+            let textToCopy = '';
+            const sections = outputCard.querySelectorAll('.note-section');
+            sections.forEach(section => {
+                textToCopy += section.innerText.trim() + '\n\n';
+            });
+            return textToCopy.trim();
+        }
+
+        function copyNotes() {
+            const text = collectNoteText();
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Notes copied!');
+            }).catch(() => {
+                alert('Failed to copy notes.');
+            });
+        }
+
+        function downloadNotes() {
+            const text = collectNoteText();
+            if (!text) return;
+            const topic = '{{ generated_note.topic }}' || 'notes';
+            const safe = topic.replace(/[^a-z0-9\-\_ ]/gi, '').replace(/\s+/g, '_');
+            const filename = safe + '.txt';
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        }
+
+        function deleteNotes(id) {
+            if (!confirm('Are you sure you want to delete this generated note?')) return;
+            fetch('/delete_generated_note', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id })
+            }).then(resp => {
+                if (resp.ok) {
+                    // refresh to update recent topics
+                    location.reload();
+                } else if (resp.status === 403) {
+                    alert('Not authorized.');
+                } else {
+                    alert('Failed to delete note.');
+                }
+            }).catch(() => alert('Failed to delete note.'));
+        }
+    </script>
+</body>
+</html>
