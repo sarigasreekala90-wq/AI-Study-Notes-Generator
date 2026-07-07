@@ -1,33 +1,40 @@
-#  AI Study Notes Generator
+# AI Study Notes Generator
 
-An AI-powered web application that generates beginner-friendly study notes using a local Large Language Model (LLM). Built with Flask, SQLite, and Ollama, the application allows users to generate, save, search, and manage study notes through a simple web interface.
+## Overview
 
----
+AI Study Notes Generator is an AI-powered web application designed to help students create clear and beginner-friendly study notes on any topic. Users can register, log in securely, generate notes using a local Large Language Model (LLM), save generated notes, search previous notes, and manage their study materials through a simple and responsive interface.
 
-##  Features
-
-* Secure Password Hashing
-*  AI-Powered Study Notes Generation
-*  Save Generated Notes
-*  Search Previous Notes
-*  Delete Notes
-*  SQLite Database
-*  Clean and Responsive User Interface
+The application is developed using Flask for the backend, SQLite for database management, and Ollama with the Gemma 3 model for AI-powered note generation.
 
 ---
 
-##  Technologies Used
+## Features
 
-### Backend
+* User registration and secure login
+* Password hashing for secure authentication
+* AI-powered study note generation
+* Save generated notes
+* Search previously generated notes
+* Delete saved notes
+* SQLite database integration
+* Responsive web interface
+* Local AI integration using Ollama
 
-* Python
-* Flask
-* SQLite
+---
 
-### AI
+## Website Pages
 
-* Ollama
-* Gemma 3 1B
+* Home Page
+* Register Page
+* Login Page
+* Dashboard
+* AI Note Generation
+* Search Notes
+* Delete Notes
+
+---
+
+## Technologies Used
 
 ### Frontend
 
@@ -35,15 +42,29 @@ An AI-powered web application that generates beginner-friendly study notes using
 * CSS
 * JavaScript
 
-### Tools
+### Backend
 
+* Python
+* Flask
+
+### Database
+
+* SQLite
+
+### Artificial Intelligence
+
+* Ollama
+* Gemma 3 (1B)
+
+### Development Tools
+
+* Visual Studio Code
 * Git
 * GitHub
-* VS Code
 
 ---
 
-##  Project Structure
+## Project Structure
 
 ```text
 AI-Study-Notes-Generator/
@@ -65,21 +86,21 @@ AI-Study-Notes-Generator/
 
 ---
 
-##  Installation
+## Installation
 
 ### Clone the repository
 
 ```bash
-git https://github.com/sarigasreekala90-wq/AI-Study-Notes-Generator.git
+git clone https://github.com/sarigasreekala90-wq/AI-Study-Notes-Generator.git
 ```
 
-### Go to the project folder
+### Move into the project directory
 
 ```bash
 cd AI-Study-Notes-Generator
 ```
 
-### Install dependencies
+### Install the required packages
 
 ```bash
 pip install -r requirements.txt
@@ -95,34 +116,58 @@ Download and install Ollama from the official website.
 ollama pull gemma3:1b
 ```
 
+### Start the Ollama server
+
+```bash
+ollama serve
+```
+
+If you receive the message:
+
+```text
+Error: listen tcp 127.0.0.1:11434: bind: Only one usage of each socket address...
+```
+
+it means the Ollama server is already running, so you can continue.
+
 ### Run the application
 
 ```bash
 python app.py
 ```
 
-Open your browser:
+### Open the website
 
-```
+Visit:
+
+```text
 http://127.0.0.1:5000
 ```
 
 ---
 
-##  Future Improvements
+## Future Enhancements
 
 * Export notes as PDF
-* AI Chatbot
+* AI Chat Assistant
 * Flashcard Generator
 * Quiz Generator
-* Dark Mode
 * Voice Input
-* Study Progress Tracker
+* Dark Mode
+* Study Progress Dashboard
+* Note Categories
+* Download Notes
 
 ---
 
-##  Author
+## Author
 
-**Sariga**
+Sariga
 
-Engineering Student | Python & AI Enthusiast
+B.Tech Information Technology Student
+
+---
+
+## License
+
+This project is intended for educational and learning purposes.
