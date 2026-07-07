@@ -24,13 +24,27 @@ The application is developed using Flask for the backend, SQLite for database ma
 
 ## Website Pages
 
-* Home Page
-* Register Page
-* Login Page
-* Dashboard
-* AI Note Generation
-* Search Notes
-* Delete Notes
+## Screenshots
+
+### Home Page
+
+![Home Page](screenshots/home.png)
+
+### Login Page
+
+![Login Page](screenshots/login.png)
+
+### Register Page
+
+![Register Page](screenshots/register.png)
+
+### Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+### AI Generated Notes
+
+![AI Generated Notes](screenshots/notes.png)
 
 ---
 
