@@ -40,11 +40,12 @@ The application is developed using Flask for the backend, SQLite for database ma
 
 ### Dashboard
 
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](screenshots/dashboard-top.png)
 
-### AI Generated Notes
+![Dashboard](screenshots/dashboard-middle.png)
 
-![AI Generated Notes](screenshots/notes.png)
+![Dashboard](screenshots/dashboard-bottom.png)
+
 
 ---
 
